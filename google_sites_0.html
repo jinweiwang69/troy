@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0.jpg 展示頁</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg-top: #dff4ff;
+      --bg-bottom: #f7f2e8;
+      --card: rgba(255, 255, 255, 0.78);
+      --text: #16324f;
+      --muted: #4f6b82;
+      --shadow: rgba(22, 50, 79, 0.18);
+      --border: rgba(255, 255, 255, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.95), transparent 38%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+    }
+
+    .card {
+      width: min(920px, 100%);
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .image-frame {
+      margin-top: 22px;
+      overflow: hidden;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: inset 0 0 0 1px rgba(22, 50, 79, 0.08);
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .meta {
+      margin-top: 18px;
+      font-size: 0.95rem;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>0.jpg 展示頁</h1>
+    <p>這是一個單頁展示檔，會從同一層資料夾讀取 0.jpg，並以實際的 GIF 格式載入，避免副檔名與檔案內容不一致造成顯示問題。</p>
+
+    <section class="image-frame">
+      <img id="hero-image" alt="0.jpg 的圖片內容">
+    </section>
+
+    <p class="meta">檔案需求：google_sites_0.html 與 0.jpg 放在同一層。</p>
+    <div class="status" id="status">正在載入圖片...</div>
+  </main>
+
+  <script>
+    async function loadImage() {
+      const status = document.getElementById('status');
+      const image = document.getElementById('hero-image');
+
+      try {
+        const response = await fetch('./0.jpg');
+
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+
+        const buffer = await response.arrayBuffer();
+        const blob = new Blob([buffer], { type: 'image/gif' });
+        image.src = URL.createObjectURL(blob);
+        status.textContent = '圖片已載入。';
+      } catch (error) {
+        status.textContent = '圖片載入失敗：請確認 0.jpg 與此 HTML 位於同一層資料夾。';
+        console.error(error);
+      }
+    }
+
+    loadImage();
+  </script>
+</body>
+</html>
