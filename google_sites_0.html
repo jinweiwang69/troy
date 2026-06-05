@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>0.jpg 展示頁</title>
+  <title></title>
   <style>
     :root {
       color-scheme: light;
@@ -70,36 +70,17 @@
       height: auto;
     }
 
-    .meta {
-      margin-top: 18px;
-      font-size: 0.95rem;
-    }
-
-    .status {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--muted);
-    }
   </style>
 </head>
 <body>
   <main class="card">
-    <h1>0.jpg 展示頁</h1>
-    <p>這是一個單頁展示檔，會從同一層資料夾讀取 0.jpg，並以實際的 GIF 格式載入，避免副檔名與檔案內容不一致造成顯示問題。</p>
-
     <section class="image-frame">
-      <img id="hero-image" alt="0.jpg 的圖片內容">
+      <img id="hero-image" alt="">
     </section>
-
-    <p class="meta">檔案需求：google_sites_0.html 與 0.jpg 放在同一層。</p>
-    <div class="status" id="status">正在載入圖片...</div>
   </main>
 
   <script>
     async function loadImage() {
-      const status = document.getElementById('status');
       const image = document.getElementById('hero-image');
 
       try {
@@ -112,9 +93,7 @@
         const buffer = await response.arrayBuffer();
         const blob = new Blob([buffer], { type: 'image/gif' });
         image.src = URL.createObjectURL(blob);
-        status.textContent = '圖片已載入。';
       } catch (error) {
-        status.textContent = '圖片載入失敗：請確認 0.jpg 與此 HTML 位於同一層資料夾。';
         console.error(error);
       }
     }
